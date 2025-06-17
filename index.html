@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n-key="appTitle">CulinaryChat Pro - Ваш профессиональный кухонный помощник</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components/modal.css">
+    <link rel="stylesheet" href="css/components/profile.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .add-ingredient-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .add-ingredient-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        .add-ingredient-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Мобильное меню -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Левая панель навигации -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo" data-i18n-key="sidebar_logo_title">
+                <i class="fas fa-utensils"></i> CulinaryChat Pro
+            </div>
+            <div class="sidebar-subtitle" data-i18n-key="sidebar_logo_subtitle">Ваш кухонный гуру</div>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section-title" data-i18n-key="nav_main">Главное</div>
+            
+            <div class="nav-item">
+                <a href="#" class="nav-link active" data-section="chat">
+                    <i class="fas fa-comments"></i>
+                    <span data-i18n-key="nav_chat">Чат с помощником</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-section="ingredients">
+                    <i class="fas fa-seedling"></i>
+                    <span data-i18n-key="nav_ingredients">Кладовая ингредиентов</span>
+                    <span class="nav-badge" id="ingredientsCount">0</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-section="profile">
+                    <i class="fas fa-user-chef"></i>
+                    <span data-i18n-key="nav_profile">Профиль</span>
+                </a>
+            </div>
+
+            <div class="nav-section-title" data-i18n-key="nav_my_recipes">Мои рецепты</div>
+            
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-section="favorites">
+                    <i class="fas fa-heart"></i>
+                    <span data-i18n-key="nav_favorites">Избранные рецепты</span>
+                    <span class="nav-badge" id="favoritesCount">0</span>
+                </a>
+            </div>
+
+            <div class="nav-section-title" data-i18n-key="nav_tools">Инструменты</div>
+
+            <div class="nav-item">
+                <a href="#" class="nav-link" data-section="timers">
+                    <i class="fas fa-stopwatch"></i>
+                    <span data-i18n-key="nav_timers">Кулинарные таймеры</span>
+                    <span class="nav-badge" id="timersCount">0</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="main-content" id="mainContent">
+        <!-- Шапка -->
+        <div class="content-header">
+            <h1 class="header-title" id="headerTitle">
+                <i class="fas fa-comments"></i> <span data-i18n-key="header_title_chat">Чат с кулинарным помощником</span>
+            </h1>
+            <p class="header-subtitle" id="headerSubtitle" data-i18n-key="header_subtitle_chat">
+                Получите персональные рекомендации и рецепты от ИИ-повара
+            </p>
+        </div>
+
+        <!-- Основное содержимое -->
+        <div class="content-body">
+            
+            <!-- СЕКЦИЯ ЧАТА -->
+            <div class="content-section active" id="chat-section">
+                <div class="chat-section active">
+                    <!-- Чат -->
+                    <div class="chat-area">
+                        <div class="messages-container" id="messagesContainer">
+                            <div class="message bot initial-suggestions">
+                                <div class="message-content">
+                                    <div class="message-icon">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-text">
+                                        <p class="message-title" data-i18n-key="chat_suggestion_title">Что приготовим сегодня?</p>
+                                        <div class="suggestions-area" id="suggestionsArea">
+                                            <div class="suggestions-grid">
+                                                <div class="suggestion-card" data-i18n-prompt-key="prompt_breakfast">
+                                                    <div class="suggestion-emoji">🥞</div>
+                                                    <div class="suggestion-title" data-i18n-key="suggestion_breakfast_title">Быстрый завтрак</div>
+                                                    <div class="suggestion-subtitle" data-i18n-key="suggestion_breakfast_subtitle">15-20 минут</div>
+                                                </div>
+                                                <div class="suggestion-card" data-i18n-prompt-key="prompt_dinner">
+                                                    <div class="suggestion-emoji">🕯️</div>
+                                                    <div class="suggestion-title" data-i18n-key="suggestion_dinner_title">Романтический ужин</div>
+                                                    <div class="suggestion-subtitle" data-i18n-key="suggestion_dinner_subtitle">Особый случай</div>
+                                                </div>
+                                                <div class="suggestion-card" data-i18n-prompt-key="prompt_kids">
+                                                    <div class="suggestion-emoji">👶</div>
+                                                    <div class="suggestion-title" data-i18n-key="suggestion_kids_title">Детское меню</div>
+                                                    <div class="suggestion-subtitle" data-i18n-key="suggestion_kids_subtitle">Полезно и вкусно</div>
+                                                </div>
+                                                <div class="suggestion-card" data-i18n-prompt-key="prompt_party">
+                                                    <div class="suggestion-emoji">🎉</div>
+                                                    <div class="suggestion-title" data-i18n-key="suggestion_party_title">Праздничный стол</div>
+                                                    <div class="suggestion-subtitle" data-i18n-key="suggestion_party_subtitle">Впечатлить гостей</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message bot">
+                                <div class="message-content">
+                                    <div class="message-icon">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-text">
+                                        <span data-i18n-key="chat_welcome_title"><h3>Добро пожаловать на профессиональную кухню!</h3></span>
+                                        <span data-i18n-key="chat_welcome_text"><p>Я ваш персональный кулинарный помощник. Выберите одну из идей выше, опишите желаемое блюдо или воспользуйтесь кладовой ингредиентов в меню слева.</p></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Индикатор готовки -->
+                        <div class="cooking-indicator" id="cookingIndicator">
+                            <div class="cooking-process">
+                                <div class="cooking-pan">🍳</div>
+                                <div class="cooking-steam">
+                                    <span class="steam-particle">💨</span>
+                                    <span class="steam-particle">💨</span>
+                                    <span class="steam-particle">💨</span>
+                                </div>
+                                <div class="cooking-text" id="cookingText" data-i18n-key="cooking_indicator_text">Готовлю ваш рецепт...</div>
+                            </div>
+                            <div class="cooking-progress">
+                                <div class="cooking-progress-bar"></div>
+                            </div>
+                        </div>
+
+                        <!-- Поле ввода -->
+                        <div class="input-container">
+                            <input type="text" class="input-field" id="messageInput" 
+                                   placeholder="Опишите, что хотите приготовить..." maxlength="500" data-i18n-key="chat_input_placeholder">
+                            <button class="send-button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- СЕКЦИЯ ИНГРЕДИЕНТОВ -->
+            <div class="content-section" id="ingredients-section">
+                <div class="ingredients-layout">
+                    <div class="ingredients-layout__left">
+                        <div class="cooking-basket-container" id="cookingBasket">
+                            <div class="basket-header">
+                                <div class="basket-title">
+                                    <i class="fas fa-shopping-basket"></i>
+                                    <span data-i18n-key="ingredients_basket_title">Корзина</span>
+                                </div>
+                                <div class="basket-subtitle" data-i18n-key="ingredients_basket_subtitle">Готовим с ИИ</div>
+                            </div>
+
+                            <div class="selected-ingredients-list" id="selectedIngredientsList">
+                                <div class="empty-state">
+                                    <i class="fas fa-utensils"></i>
+                                    <p data-i18n-key="ingredients_basket_empty_state">Выберите продукты</p>
+                                </div>
+                            </div>
+
+                            <div class="basket-actions">
+                                <button class="cook-with-ingredients-btn" id="cookWithIngredientsBtn" onclick="cookWithSelectedIngredients()">
+                                    <i class="fas fa-magic"></i>
+                                    <span data-i18n-key="ingredients_cook_button">Приготовить рецепт</span>
+                                </button>
+                                <button class="clear-basket-btn" id="clearBasketBtn" onclick="clearSelectedIngredients()">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span data-i18n-key="ingredients_clear_button">Очистить</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ingredients-layout__main">
+                    <div class="ingredients-header">
+                        <div class="ingredients-search-bar">
+                            <div class="search-input-container">
+                                <i class="fas fa-search search-icon"></i>
+                                    <input type="text" class="search-input" id="searchInput" placeholder="Поиск ингредиентов..." data-i18n-key="ingredients_search_placeholder">
+                            </div>
+                                <button class="add-ingredient-btn" onclick="openAddIngredientModal()">
+                                    <i class="fas fa-plus"></i> <span data-i18n-key="ingredients_add_button">Добавить</span>
+                            </button>
+                        </div>
+
+                        <div id="mobileDietaryFilters"></div>
+
+                        <div class="category-tabs" id="categoryTabs">
+                            <div class="category-tab active" data-category="all">
+                                    <i class="fas fa-utensils"></i> <span data-i18n-key="category_all">Все</span>
+                            </div>
+                            <div class="category-tab" data-category="vegetables">
+                                    <i class="fas fa-carrot"></i> <span data-i18n-key="category_vegetables">Овощи</span>
+                            </div>
+                            <div class="category-tab" data-category="meat">
+                                    <i class="fas fa-drumstick-bite"></i> <span data-i18n-key="category_meat">Мясо</span>
+                            </div>
+                            <div class="category-tab" data-category="dairy">
+                                    <i class="fas fa-cheese"></i> <span data-i18n-key="category_dairy">Молочное</span>
+                            </div>
+                            <div class="category-tab" data-category="grains">
+                                    <i class="fas fa-wheat-awn"></i> <span data-i18n-key="category_grains">Крупы</span>
+                            </div>
+                            <div class="category-tab" data-category="fruits">
+                                    <i class="fas fa-apple-alt"></i> <span data-i18n-key="category_fruits">Фрукты</span>
+                            </div>
+                            <div class="category-tab" data-category="spices">
+                                    <i class="fas fa-pepper-hot"></i> <span data-i18n-key="category_spices">Специи</span>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="ingredients-grid-container">
+                            <div class="ingredients-grid" id="ingredientsGrid">
+                                <!-- Ингредиенты будут добавлены через JavaScript -->
+                            </div>
+                            </div>
+                        </div>
+
+                    <div class="ingredients-layout__right">
+                            <div class="filters-panel" id="filtersPanel">
+                                <!-- Панель для фильтров будет вставлена сюда -->
+                            </div>
+                                    </div>
+                </div>
+            </div>
+
+            <!-- СЕКЦИЯ ПРОФИЛЯ -->
+            <div class="content-section" id="profile-section">
+                <div class="profile-section">
+                    <div class="profile-card">
+                        <h2>
+                            <span class="icon"><i class="fas fa-user-cog"></i></span>
+                            <span data-i18n-key="profile_title">Настройки профиля</span>
+                        </h2>
+                        <p data-i18n-key="profile_subtitle">Управляйте вашими персональными данными и настройками.</p>
+
+                        <div class="form-group">
+                            <label for="apiKeyInput" data-i18n-key="profile_api_key_label">API-ключ для Gemini</label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-key input-icon"></i>
+                                <input type="password" id="apiKeyInput" class="api-key-input" placeholder="Введите ваш API-ключ" data-i18n-key="profile_api_key_placeholder">
+                        </div>
+                            <div id="apiKeyStatus"></div>
+                        </div>
+                        
+                        <div class="api-key-actions">
+                            <button class="save-api-key-btn" id="saveApiKeyBtn">
+                                <span class="icon"><i class="fas fa-check-circle"></i></span>
+                                <span data-i18n-key="profile_apply_button">Применить</span>
+                            </button>
+                             <button class="delete-api-key-btn" id="deleteApiKeyBtn">
+                                <span class="icon"><i class="fas fa-trash-alt"></i></span>
+                                <span data-i18n-key="profile_delete_button">Удалить</span>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- СЕКЦИЯ ИЗБРАННОГО -->
+            <div class="content-section" id="favorites-section">
+                <div class="favorites-section">
+                     <div class="favorites-header" style="display: flex; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                        <div class="favorites-search-container" style="flex-grow: 1; position: relative;">
+                             <i class="fas fa-search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
+                             <input type="text" class="favorites-search" id="favoritesSearch" placeholder="Поиск в избранных рецептах..." data-i18n-key="favorites_search_placeholder" style="width: 100%; padding: 10px 15px 10px 40px; border-radius: 20px; border: 1px solid #e5e7eb; background-color: #f9fafb;">
+                        </div>
+                        <div class="favorites-sort-container" style="display: flex; align-items: center; gap: 8px; color: #6b7280; background-color: #f9fafb; padding: 10px 15px; border-radius: 20px; border: 1px solid #e5e7eb;">
+                            <i class="fas fa-sort-amount-down"></i>
+                            <span data-i18n-key="favorites_sort_by_date">По дате добавления</span>
+                        </div>
+                    </div>
+                    <div class="favorites-grid" id="favoritesGrid">
+                         <!-- Карточки избранного -->
+                    </div>
+                    <div class="empty-state empty-state-favorites" id="emptyFavorites">
+                        <i class="fas fa-heart"></i>
+                        <span data-i18n-key="favorites_empty_title"><h3>Пока нет избранных рецептов</h3></span>
+                        <span data-i18n-key="favorites_empty_text"><p>Добавляйте понравившиеся рецепты в избранное, и они появятся здесь</p></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- СЕКЦИЯ ТАЙМЕРОВ -->
+            <div class="content-section" id="timers-section">
+                <div class="timers-section">
+                    <div class="timers-header">
+                        <div class="timers-title-container">
+                             <h2 style="font-family: 'Comfortaa', cursive; font-size: 1.5rem; font-weight: 700; color: #374151;" data-i18n-key="timers_title">Кулинарные таймеры</h2>
+                             <p style="color: #6b7280; font-size: 0.95rem;" data-i18n-key="timers_subtitle">Синхронизируйте процессы готовки</p>
+                        </div>
+                        <button class="add-timer-btn" onclick="addTimer()">
+                            <i class="fas fa-plus"></i>
+                            <span data-i18n-key="timers_add_button">Добавить таймер</span>
+                        </button>
+                    </div>
+                    <div class="timers-grid" id="timersGrid">
+                        <!-- Карточки таймеров будут добавлены сюда -->
+                    </div>
+                    <div id="emptyTimers" class="empty-state" style="display: none;">
+                        <i class="fas fa-stopwatch"></i>
+                        <span data-i18n-key="timers_empty_title"><h3>Нет активных таймеров</h3></span>
+                        <span data-i18n-key="timers_empty_text"><p>Нажмите "Добавить таймер", чтобы начать отсчет времени.</p></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/localization.js"></script>
+    <script>
+        // ===== КОНФИГУРАЦИЯ =====
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+
+        // ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
+        let currentSection = 'chat';
+        let currentMessages = [];
+        let currentChatId = null;
+        let chatHistory = [];
+        let userProfile = {
+            name: 'Кулинар',
+            level: 'beginner'
+        };
+        let timers = [];
+
+        // ===== СИСТЕМА ИНГРЕДИЕНТОВ =====
+        let selectedIngredients = [];
+        let currentCategory = 'all';
+        let filteredIngredients = [];
+
+        // Список ингредиентов перенесен в отдельный файл ingredients-data.js
+        // для удобства расширения и поддержки
+
+        // ===== ЭЛЕМЕНТЫ DOM =====
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const cookingIndicator = document.getElementById('cookingIndicator');
+        const cookingText = document.getElementById('cookingText');
+        const headerTitle = document.getElementById('headerTitle');
+        const headerSubtitle = document.getElementById('headerSubtitle');
+        const suggestionsArea = document.getElementById('suggestionsArea');
+
+        // Элементы ингредиентов
+        const ingredientsGrid = document.getElementById('ingredientsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const categoryTabs = document.getElementById('categoryTabs');
+        const selectedIngredientsList = document.getElementById('selectedIngredientsList');
+        const cookingBasket = document.getElementById('cookingBasket');
+        const cookWithIngredientsBtn = document.getElementById('cookWithIngredientsBtn');
+        const clearBasketBtn = document.getElementById('clearBasketBtn');
+
+        // Элементы таймеров
+        const timersGrid = document.getElementById('timersGrid');
+        const emptyTimers = document.getElementById('emptyTimers');
+
+        // ===== МАССИВЫ ДАННЫХ =====
+        const cookingPhrases = [
+            "Изучаю ваши ингредиенты...",
+            "Подбираю идеальное сочетание...",
+            "Рассчитываю пропорции...",
+            "Создаю уникальный рецепт...",
+            "Добавляю секретные техники...",
+            "Проверяю совместимость продуктов...",
+            "Добавляю финальные штрихи...",
+            "Ваш рецепт готов!"
+        ];
+
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            console.log('🍳 CulinaryChat Pro инициализируется...');
+            
+            loadUserData();
+            initializeNavigation();
+            initializeMobileMenu();
+            initializeIngredients();
+            initializeSuggestions();
+            initializeTimers();
+            
+            // Устанавливаем начальную страницу и заголовок
+            navigateTo('chat');
+
+            updateBadges();
+            console.log('✅ CulinaryChat Pro готов к работе!');
+        }
+
+        // ===== НАВИГАЦИЯ =====
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = link.dataset.section;
+                    navigateTo(section, link);
+                });
+            });
+        }
+
+        function navigateTo(section, activeLink = null) {
+            currentSection = section;
+
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            
+            const targetSection = document.getElementById(`${section}-section`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            if (activeLink) {
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                activeLink.classList.add('active');
+            } else {
+                const link = document.querySelector(`.nav-link[data-section="${section}"]`);
+                if (link) {
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            }
+            updateHeaderForSection(section);
+        }
+
+        function updateHeaderForSection(section) {
+            const headerData = {
+                chat: { icon: 'fa-comments', title: 'header_title_chat', subtitle: 'header_subtitle_chat' },
+                ingredients: { icon: 'fa-seedling', title: 'header_title_ingredients', subtitle: 'header_subtitle_ingredients' },
+                profile: { icon: 'fa-user-chef', title: 'header_title_profile', subtitle: 'header_subtitle_profile' },
+                favorites: { icon: 'fa-heart', title: 'header_title_favorites', subtitle: 'header_subtitle_favorites' },
+                timers: { icon: 'fa-stopwatch', title: 'header_title_timers', subtitle: 'header_subtitle_timers' }
+            };
+            
+            const data = headerData[section] || { icon: 'fa-question-circle', title: '', subtitle: '' };
+
+            headerTitle.innerHTML = `<i class="fas ${data.icon}"></i> <span data-i18n-key="${data.title}"></span>`;
+            headerSubtitle.setAttribute('data-i18n-key', data.subtitle);
+
+            if (typeof applyTranslations === 'function') {
+                applyTranslations(getLanguage());
+            }
+        }
+
+        // ===== МОБИЛЬНОЕ МЕНЮ =====
+        function initializeMobileMenu() {
+            mobileMenuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('mobile-open');
+            });
+
+            // Закрытие меню при клике вне его
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 && 
+                    !sidebar.contains(e.target) && 
+                    !mobileMenuToggle.contains(e.target)) {
+                    sidebar.classList.remove('mobile-open');
+                }
+            });
+        }
+
+        // ===== СИСТЕМА ИНГРЕДИЕНТОВ =====
+        function initializeIngredients() {
+            filteredIngredients = [...availableIngredients];
+            
+            // Инициализация поиска
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                filterIngredients(query, currentCategory);
+            });
+
+            // Инициализация вкладок категорий
+            categoryTabs.addEventListener('click', (e) => {
+                const tab = e.target.closest('.category-tab');
+                if (!tab) return;
+
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                currentCategory = tab.dataset.category;
+                filterIngredients(searchInput.value.toLowerCase(), currentCategory);
+            });
+
+            displayIngredients();
+        }
+
+        function displayIngredients() {
+            ingredientsGrid.innerHTML = '';
+            
+            if (filteredIngredients.length === 0) {
+                ingredientsGrid.innerHTML = `
+                    <div class="empty-ingredients">
+                        <i class="fas fa-search"></i>
+                        <h3>Ингредиенты не найдены</h3>
+                        <p>Попробуйте изменить поисковый запрос</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredIngredients.forEach((ingredient, index) => {
+                const ingredientDiv = document.createElement('div');
+                ingredientDiv.className = 'ingredient-item';
+                if (ingredient.seasonal) {
+                    ingredientDiv.classList.add('seasonal');
+                }
+                ingredientDiv.setAttribute('data-id', ingredient.id);
+                
+                const isSelected = selectedIngredients.find(item => item.id === ingredient.id);
+                if (isSelected) {
+                    ingredientDiv.classList.add('selected');
+                }
+                
+                ingredientDiv.innerHTML = `
+                    <div class="ingredient-emoji">${ingredient.emoji}</div>
+                    <div class="ingredient-name">${ingredient.name}</div>
+                    <div class="ingredient-category">${getCategoryName(ingredient.category)}</div>
+                `;
+                
+                ingredientDiv.addEventListener('click', () => {
+                    toggleIngredient(ingredient, ingredientDiv);
+                });
+                
+                ingredientsGrid.appendChild(ingredientDiv);
+                
+                // Анимация появления
+                setTimeout(() => {
+                    ingredientDiv.classList.add('landed');
+                }, (index * 50) + 100);
+            });
+        }
+
+        function filterIngredients(query, category) {
+            const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 1);
+
+            // Промежуточная фильтрация по поиску и категории
+            const baseFiltered = availableIngredients.filter(ingredient => {
+                const matchesCategory = category === 'all' || ingredient.category === category;
+                if (!matchesCategory) {
+                    return false;
+                }
+
+                if (query.trim() === '') {
+                    return true;
+                }
+                
+                const ingredientNameWords = ingredient.name.toLowerCase().split(' ');
+
+                // Проверяем, соответствует ли ингредиент КАЖДОМУ поисковому слову
+                const matchesSearch = searchTerms.every(searchTerm => {
+                    // Сначала ищем прямое вхождение (это быстрее)
+                    if (ingredient.name.toLowerCase().includes(searchTerm)) {
+                        return true;
+                    }
+
+                    // Если прямого вхождения нет, используем "умный" поиск
+                    // Проверяем, есть ли ХОТЯ БЫ ОДНО слово в названии, похожее на поисковый запрос
+                    return ingredientNameWords.some(ingWord => {
+                        const distance = levenshteinDistance(searchTerm, ingWord);
+                        // Порог для опечаток: 1 ошибка на 4 символа, но не больше 2-х ошибок
+                        const threshold = Math.min(2, Math.floor(ingWord.length / 4));
+                        return distance <= threshold;
+                    });
+                });
+
+                return matchesSearch;
+            });
+            
+            // Применяем диетические фильтры, если функция существует
+            filteredIngredients = typeof isIngredientCompatible === 'function' 
+                ? baseFiltered.filter(isIngredientCompatible)
+                : baseFiltered;
+
+            displayIngredients();
+        }
+
+        function levenshteinDistance(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+
+            const matrix = [];
+
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
+
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1, // замена
+                            matrix[i][j - 1] + 1,     // вставка
+                            matrix[i - 1][j] + 1      // удаление
+                        );
+                    }
+                }
+            }
+
+            return matrix[b.length][a.length];
+        }
+
+        // Функция getCategoryName перемещена в файл ingredients-data.js
+
+        function toggleIngredient(ingredient, element) {
+            const existingIndex = selectedIngredients.findIndex(item => item.id === ingredient.id);
+            
+            if (existingIndex >= 0) {
+                // Убираем ингредиент с анимацией
+                createDropAnimation(ingredient.emoji, element);
+                selectedIngredients.splice(existingIndex, 1);
+                element.classList.remove('selected');
+            } else {
+                // Добавляем ингредиент
+                selectedIngredients.push({
+                    ...ingredient,
+                    quantity: 1,
+                    unit: ingredient.units[0]
+                });
+                element.classList.add('selected');
+            }
+            
+            updateSelectedIngredientsList();
+            updateBadges();
+        }
+
+        function createDropAnimation(emoji, sourceElement) {
+            const dropElement = document.createElement('div');
+            dropElement.className = 'ingredient-drop-animation';
+            dropElement.textContent = emoji;
+            
+            const rect = sourceElement.getBoundingClientRect();
+            dropElement.style.left = rect.left + 'px';
+            dropElement.style.top = rect.top + 'px';
+            
+            document.body.appendChild(dropElement);
+            
+            setTimeout(() => {
+                dropElement.remove();
+            }, 1500);
+        }
+
+        function updateIngredientUnit(ingredientId, newUnit) {
+            const ingredient = selectedIngredients.find(item => item.id === ingredientId);
+            if (ingredient) {
+                ingredient.unit = newUnit;
+            }
+        }
+
+        function updateIngredientQuantity(ingredientId, newQuantity) {
+            const ingredient = selectedIngredients.find(item => item.id === ingredientId);
+            const quantity = parseInt(newQuantity, 10);
+
+            const inputElement = document.querySelector(`.selected-ingredient[data-id="${ingredientId}"] .quantity-input`);
+
+            if (ingredient && quantity > 0) {
+                ingredient.quantity = quantity;
+            } else if (ingredient) {
+                // Если введено некорректное значение, возвращаем старое
+                if(inputElement) inputElement.value = ingredient.quantity;
+                showNotification('Количество должно быть больше нуля', 'warning');
+            }
+        }
+
+        let basketObserver;
+
+        function updateSelectedIngredientsList() {
+            const list = document.getElementById('selectedIngredientsList');
+            if (!list) return;
+
+            const cookingBasket = document.getElementById('cookingBasket');
+            const cookWithIngredientsBtn = document.getElementById('cookWithIngredientsBtn');
+            const clearBasketBtn = document.getElementById('clearBasketBtn');
+
+            list.innerHTML = ''; // Очищаем список
+
+            if (selectedIngredients.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-utensils"></i>
+                        <p data-i18n-key="ingredients_basket_empty_state">Выберите продукты</p>
+                    </div>
+                `;
+                cookingBasket.classList.remove('has-items');
+                cookWithIngredientsBtn.classList.remove('show');
+                clearBasketBtn.classList.remove('show');
+                document.querySelector('.basket-title').innerHTML = `
+                    <i class="fas fa-shopping-basket"></i>
+                    Корзина
+                `;
+            } else {
+                selectedIngredients.forEach(ingredient => {
+                    const unitsSelector = `
+                        <select class="card-unit-selector" onchange="updateIngredientUnit('${ingredient.id}', this.value)" onclick="event.stopPropagation();">
+                            ${ingredient.units.map(u => `<option value="${u}" ${u === ingredient.unit ? 'selected' : ''}>${u}</option>`).join('')}
+                        </select>
+                    `;
+
+                    const cardHTML = `
+                        <div class="selected-ingredient-card" data-id="${ingredient.id}">
+                            <div class="card-inner">
+                                <div class="card-front">
+                                    <div class="card-emoji">${ingredient.emoji}</div>
+                                    <div class="card-name">${ingredient.name}</div>
+                                </div>
+                                <div class="card-back">
+                                    <button class="card-remove-btn" onclick="removeSelectedIngredient('${ingredient.id}'); event.stopPropagation();">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <div class="card-back-title">${ingredient.name}</div>
+                                    <div class="card-controls">
+                                        <input type="number" value="${ingredient.quantity}" min="1" class="card-quantity-input" 
+                                               onchange="updateIngredientQuantity('${ingredient.id}', this.value)"
+                                               onclick="event.stopPropagation();">
+                                        ${unitsSelector}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.innerHTML += cardHTML;
+                });
+                
+                cookingBasket.classList.add('has-items');
+                cookWithIngredientsBtn.classList.add('show');
+                clearBasketBtn.classList.add('show');
+                
+                document.querySelector('.basket-title').innerHTML = `
+                    <i class="fas fa-shopping-basket"></i>
+                    Выбрано: ${selectedIngredients.length}
+                `;
+            }
+
+            // Управление адаптивностью корзины
+            setupBasketObserver();
+        }
+
+        function setupBasketObserver() {
+            const list = document.getElementById('selectedIngredientsList');
+            if (!list) return;
+
+            if (basketObserver) {
+                basketObserver.disconnect();
+            }
+
+            basketObserver = new ResizeObserver(entries => {
+                const entry = entries[0];
+                const isOverflowing = entry.target.scrollHeight > entry.target.clientHeight;
+                
+                if (isOverflowing) {
+                    entry.target.classList.add('is-crowded');
+                } else {
+                    entry.target.classList.remove('is-crowded');
+                }
+            });
+
+            basketObserver.observe(list);
+        }
+
+        function removeSelectedIngredient(ingredientId) {
+            selectedIngredients = selectedIngredients.filter(item => item.id !== ingredientId);
+            
+            // Обновляем визуальное состояние элементов
+            const element = document.querySelector(`[data-id="${ingredientId}"]`);
+            if (element) {
+                element.classList.remove('selected');
+            }
+            
+            updateSelectedIngredientsList();
+            updateBadges();
+        }
+
+        function clearSelectedIngredients() {
+            selectedIngredients = [];
+            document.querySelectorAll('.ingredient-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            updateSelectedIngredientsList();
+            updateBadges();
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            currentCategory = 'all';
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector('[data-category="all"]').classList.add('active');
+            filterIngredients('', 'all');
+        }
+
+        function cookWithSelectedIngredients() {
+            if (selectedIngredients.length === 0) return;
+            
+            // Создаем детальный список ингредиентов
+            const ingredientsList = selectedIngredients.map(ing => 
+                `${ing.quantity} ${ing.unit} ${ing.name.toLowerCase()}`
+            ).join(', ');
+            
+            const message = `У меня есть только эти ингредиенты: ${ingredientsList}. Приготовь рецепт ТОЛЬКО из них, без добавления других продуктов!`;
+            
+            // Переключаемся на чат
+            navigateTo('chat');
+            hideSuggestions();
+            
+            setTimeout(() => {
+                addUserMessage(message);
+                setTimeout(() => {
+                    generateRecipeResponse(message);
+                }, 1000);
+            }, 500);
+        }
+
+        // ===== СИСТЕМА ЧАТА =====
+        function selectSuggestion(suggestionText) {
+            const suggestionsContainer = document.querySelector('.initial-suggestions');
+            if (suggestionsContainer) {
+                suggestionsContainer.style.display = 'none';
+            }
+            
+            addUserMessage(suggestionText);
+            setTimeout(() => {
+                generateRecipeResponse(suggestionText);
+            }, 1000);
+        }
+
+        function hideSuggestions() {
+            const suggestionsContainer = document.querySelector('.initial-suggestions');
+            if (suggestionsContainer) {
+                suggestionsContainer.style.display = 'none';
+            }
+        }
+
+        function showSuggestions() {
+            const suggestionsContainer = document.querySelector('.initial-suggestions');
+            if (suggestionsContainer) {
+                suggestionsContainer.style.display = 'block';
+            }
+        }
+
+        async function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText.length === 0) return;
+
+            addUserMessage(messageText);
+            messageInput.value = '';
+            showCookingIndicator();
+            
+            // --- Локализация промпта для ИИ ---
+            const systemPrompt = getTranslation('ai_system_prompt');
+            const userProfileTitle = getTranslation('prompt_user_profile_title');
+            const userNameLabel = getTranslation('prompt_user_name_label');
+            const userLevelLabel = getTranslation('prompt_user_level_label');
+            const translatedUserLevel = getTranslation(`profile_level_${userProfile.level}`);
+            const chatContextTitle = getTranslation('prompt_chat_context_title');
+            const userRole = getTranslation('prompt_user_role');
+            const assistantRole = getTranslation('prompt_assistant_role');
+            const newRequestLabel = getTranslation('prompt_new_request_label');
+            
+            const prompt = `
+${systemPrompt}
+
+${userProfileTitle}:
+- ${userNameLabel}: ${userProfile.name}
+- ${userLevelLabel}: ${translatedUserLevel}
+
+${chatContextTitle}:
+${currentMessages.map(m => `- ${m.type === 'user' ? userRole : assistantRole}: ${m.text}`).join('\n')}
+
+${newRequestLabel}: ${messageText}
+`;
+
+            try {
+                const botResponse = await callGeminiAPI(prompt);
+                
+                if (botResponse) {
+                    addBotMessage(botResponse);
+                }
+                // Если botResponse is null, значит callGeminiAPI уже обработал ошибку (например, отсутствие ключа)
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                addBotMessage('К сожалению, не удалось связаться с ИИ-поваром. Проверьте ваше подключение к сети или попробуйте позже.');
+            } finally {
+                hideCookingIndicator();
+            }
+        }
+
+        function addUserMessage(message, saveToHistory = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.textContent = message;
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+            
+            if (saveToHistory) {
+                currentMessages.push({
+                    type: 'user',
+                    text: message,
+                    timestamp: Date.now()
+                });
+            }
+        }
+
+        function addBotMessage(message, recipeData = null, saveToHistory = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot';
+            messageDiv.innerHTML = formatMessage(message);
+            
+            // Добавляем кнопки действий для рецептов
+            if (recipeData || message.includes('🍽️') || message.includes('Ингредиенты:')) {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'recipe-actions';
+                
+                actionsDiv.innerHTML = `
+                    <button class="action-btn favorite" onclick="toggleFavorite(this, '${Date.now()}')">
+                        <i class="fas fa-heart"></i> В избранное
+                    </button>
+                `;
+                
+                // Добавляем систему оценок
+                const ratingDiv = document.createElement('div');
+                ratingDiv.className = 'star-rating';
+                ratingDiv.innerHTML = `
+                    <span>Оцените рецепт:</span>
+                    ${[1,2,3,4,5].map(star => 
+                        `<i class="fas fa-star star" onclick="rateRecipe('${Date.now()}', ${star})"></i>`
+                    ).join('')}
+                `;
+                
+                messageDiv.appendChild(actionsDiv);
+                messageDiv.appendChild(ratingDiv);
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+            
+            if (saveToHistory) {
+                currentMessages.push({
+                    type: 'bot',
+                    text: message,
+                    recipeData: recipeData,
+                    timestamp: Date.now()
+                });
+                
+                setTimeout(() => {
+                    saveCurrentChat();
+                }, 1000);
+            }
+        }
+
+        function showCookingProcess() {
+            cookingIndicator.style.display = 'block';
+            scrollToBottom();
+            
+            let phraseIndex = 0;
+            const phraseInterval = setInterval(() => {
+                if (phraseIndex < cookingPhrases.length) {
+                    cookingText.textContent = cookingPhrases[phraseIndex];
+                    phraseIndex++;
+                } else {
+                    clearInterval(phraseInterval);
+                }
+            }, 400);
+        }
+
+        function hideCookingProcess() {
+            cookingIndicator.style.display = 'none';
+        }
+
+        async function generateRecipeResponse(userMessage) {
+            showCookingProcess();
+
+            try {
+                const prompt = createStrictCulinaryPrompt(userMessage);
+                const response = await callGeminiAPI(prompt);
+                
+                hideCookingProcess();
+                
+                if (response) {
+                    const recipeData = extractRecipeData(response);
+                    addBotMessage(response, recipeData);
+                } else {
+                    addBotMessage('Извините, у меня проблемы на кухне! 😅 Попробуйте еще раз.');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                hideCookingProcess();
+                addBotMessage('Извините, у меня технические неполадки! Проверьте интернет-соединение.');
+            }
+        }
+
+        function createStrictCulinaryPrompt(userMessage) {
+            const profile = userProfile;
+            
+            // Определяем, указаны ли конкретные ингредиенты
+            const hasOnlyIngredients = userMessage.toLowerCase().includes('только') || 
+                                     userMessage.toLowerCase().includes('есть только') ||
+                                     userMessage.toLowerCase().includes('у меня есть только') ||
+                                     userMessage.toLowerCase().includes('из них');
+
+            let basePrompt = `Ты - профессиональный кулинарный помощник и шеф-повар. 
+
+Пользователь написал: "${userMessage}"
+
+Уровень пользователя: ${profile.level}`;
+
+            if (hasOnlyIngredients) {
+                basePrompt += `
+
+🚨 ВАЖНОЕ ПРАВИЛО: Пользователь указал КОНКРЕТНЫЕ ингредиенты! 
+❌ НЕ ДОБАВЛЯЙ никаких других ингредиентов, кроме указанных!
+❌ НЕ предлагай "по желанию" или "для улучшения вкуса"!
+✅ Используй ТОЛЬКО те продукты, которые перечислил пользователь!
+✅ Если чего-то критически не хватает (соль, перец, масло для жарки) - укажи это отдельно.`;
+            }
+
+            return basePrompt + `
+
+Создай ПОДРОБНЫЙ рецепт в следующем формате:
+
+🍽️ **НАЗВАНИЕ БЛЮДА**
+
+📝 **Описание:** Краткое аппетитное описание
+
+⏰ **Время готовки:** X минут (приготовление) + Y минут (общее время)
+
+👥 **Порции:** Z порций
+
+🛒 **Ингредиенты:**
+• Точные количества всех ингредиентов${hasOnlyIngredients ? ' (ТОЛЬКО из указанных пользователем!)' : ''}
+
+👨‍🍳 **Пошаговое приготовление:**
+1. Подробные четкие шаги
+2. С указанием времени и температуры
+3. С советами по технике
+
+💡 **Полезные советы:**
+• Как улучшить вкус
+• Варианты подачи
+• Секреты приготовления
+
+🥗 **Пищевая ценность (на порцию):**
+Калории: ~X ккал | Белки: Xг | Жиры: Xг | Углеводы: Xг
+
+Будь дружелюбным и профессиональным. ${hasOnlyIngredients ? 'СТРОГО следуй списку ингредиентов!' : ''}`;
+        }
+
+        async function callGeminiAPI(prompt) {
+            const apiKey = localStorage.getItem('geminiApiKey');
+
+            if (!apiKey) {
+                addBotMessage('API-ключ для Gemini не найден. Пожалуйста, добавьте его в разделе "Профиль", чтобы я мог помочь вам с рецептами.');
+                hideCookingIndicator();
+                // Можно добавить дополнительную логику, например, переключение на вкладку профиля
+                // showSection('profile-section');
+                return null;
+            }
+
+            const response = await fetch(`${API_URL}?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        topK: 30,
+                        topP: 0.9,
+                        maxOutputTokens: 1200,
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+             if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                console.error("Unexpected API response structure:", data);
+                addBotMessage("Извините, я получил странный ответ от сервера. Пожалуйста, попробуйте переформулировать запрос.");
+                return null;
+            }
+        }
+
+        function extractRecipeData(recipeText) {
+            // Извлекаем структурированные данные из рецепта
+            const data = {
+                title: '',
+                time: '',
+                servings: '',
+                ingredients: [],
+                steps: [],
+                calories: 0,
+                protein: 0,
+                fat: 0,
+                carbs: 0
+            };
+
+            // Извлекаем название
+            const titleMatch = recipeText.match(/🍽️\s?\*\*(.*?)\*\*/);
+            if (titleMatch) data.title = titleMatch[1];
+
+            // Извлекаем время
+            const timeMatch = recipeText.match(/⏰.*?(\d+).*?минут/);
+            if (timeMatch) data.time = timeMatch[1];
+
+            // Извлекаем порции
+            const servingsMatch = recipeText.match(/👥.*?(\d+).*?порц/);
+            if (servingsMatch) data.servings = servingsMatch[1];
+
+            return data;
+        }
+
+        function formatMessage(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^• (.*$)/gim, '<li>$1</li>')
+                .replace(/^(\d+)\. (.*$)/gim, '<li><strong>$1.</strong> $2</li>')
+                .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function scrollToBottom() {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Обработка Enter
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // ===== СИСТЕМА ИЗБРАННОГО =====
+        function toggleFavorite(button, recipeId) {
+            // Делегируем вызов функции из culinary-extensions.js
+            if (window.toggleFavorite !== undefined && this !== window.toggleFavorite) {
+                window.toggleFavorite(button, recipeId);
+                return;
+            }
+            
+            // Резервный вариант на случай, если расширения не загрузились
+            if (button.classList.contains('active')) {
+                button.classList.remove('active');
+                button.innerHTML = '<i class="fas fa-heart"></i> В избранное';
+                showNotification('Рецепт удален из избранного', 'warning');
+            } else {
+                button.classList.add('active');
+                button.innerHTML = '<i class="fas fa-heart"></i> В избранном';
+                showNotification('Рецепт добавлен в избранное!', 'success');
+            }
+        }
+
+        function rateRecipe(recipeId, rating) {
+            // Делегируем вызов функции из culinary-extensions.js
+            if (window.rateRecipe !== undefined && this !== window.rateRecipe) {
+                window.rateRecipe(recipeId, rating);
+                return;
+            }
+            
+            // Резервный вариант на случай, если расширения не загрузились
+            const stars = event.target.parentElement.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.classList.toggle('active', index < rating);
+            });
+            
+            showNotification(`Рецепт оценен на ${rating} звезд!`, 'success');
+        }
+
+        // ===== ПРОФИЛЬ =====
+        function saveProfile() {
+            userProfile.name = document.getElementById('userName').value;
+            userProfile.level = document.getElementById('cookingLevel').value;
+            
+            saveUserData();
+            showNotification('Профиль успешно сохранен!', 'success');
+        }
+
+        // ===== СОХРАНЕНИЕ ДАННЫХ =====
+        function saveUserData() {
+            try {
+                localStorage.setItem('culinaryChat_userProfile', JSON.stringify(userProfile));
+                localStorage.setItem('culinaryChat_selectedIngredients', JSON.stringify(selectedIngredients));
+                saveTimers();
+            } catch (error) {
+                console.error('Ошибка сохранения данных:', error);
+            }
+        }
+
+        function loadUserData() {
+            try {
+                const savedProfile = localStorage.getItem('culinaryChat_userProfile');
+                if (savedProfile) {
+                    userProfile = {...userProfile, ...JSON.parse(savedProfile)};
+                }
+                
+                const savedIngredients = localStorage.getItem('culinaryChat_selectedIngredients');
+                if (savedIngredients) {
+                    selectedIngredients = JSON.parse(savedIngredients);
+                }
+                
+                const savedHistory = localStorage.getItem('culinaryChat_history');
+                if (savedHistory) {
+                    chatHistory = JSON.parse(savedHistory);
+                }
+                loadTimers();
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
+            }
+        }
+
+        function saveChatHistory() {
+            try {
+                localStorage.setItem('culinaryChat_history', JSON.stringify(chatHistory));
+            } catch (error) {
+                console.error('Ошибка сохранения истории:', error);
+            }
+        }
+
+        // ===== УВЕДОМЛЕНИЯ =====
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                error: 'fas fa-exclamation-circle',
+                warning: 'fas fa-exclamation-triangle',
+                info: 'fas fa-info-circle'
+            };
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="${icons[type]}" style="font-size: 1.2rem;"></i>
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 2px;">${getNotificationTitle(type)}</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">${message}</div>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="background: none; border: none; color: inherit; font-size: 1.1rem; cursor: pointer; margin-left: auto;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function getNotificationTitle(type) {
+            const titles = {
+                success: 'Успешно!',
+                error: 'Ошибка!',
+                warning: 'Внимание!',
+                info: 'Информация'
+            };
+            return titles[type] || 'Уведомление';
+        }
+
+        // ===== ОБНОВЛЕНИЕ СЧЕТЧИКОВ =====
+        function updateBadges() {
+            const ingredientsCount = document.getElementById('ingredientsCount');
+            const favoritesCount = document.getElementById('favoritesCount');
+            const timersCount = document.getElementById('timersCount');
+            
+            if (ingredientsCount) {
+                ingredientsCount.textContent = selectedIngredients.length;
+                ingredientsCount.style.display = selectedIngredients.length > 0 ? 'inline-block' : 'none';
+            }
+            
+            if (favoritesCount) {
+                favoritesCount.style.display = 'none';
+            }
+            
+            if (timersCount) {
+                const activeTimers = timers.filter(t => t.isRunning).length;
+                timersCount.textContent = activeTimers;
+                timersCount.style.display = activeTimers > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        // ===== АВТОСОХРАНЕНИЕ =====
+        setInterval(() => {
+            saveUserData();
+        }, 30000); // Автосохранение каждые 30 секунд
+
+        // ===== ОБРАБОТКА ЗАКРЫТИЯ СТРАНИЦЫ =====
+        window.addEventListener('beforeunload', () => {
+            saveUserData();
+        });
+
+        console.log('🎉 CulinaryChat Pro полностью инициализирован! Версия 2.1');
+
+        // ФУНКЦИИ УПРАВЛЕНИЯ КОРЗИНОЙ
+        // ======================================
+
+        function openCustomIngredientModal() {
+            const searchInput = document.getElementById('searchInput');
+            const modalNameInput = document.getElementById('customIngredientName');
+            if (modalNameInput && searchInput) {
+                modalNameInput.value = searchInput.value;
+            }
+
+            const modal = document.getElementById('addCustomIngredientModal');
+            if (modal) {
+                modal.classList.add('visible');
+            }
+        }
+
+        function closeCustomIngredientModal() {
+            const modal = document.getElementById('addCustomIngredientModal');
+            modal.classList.remove('visible');
+        }
+
+        function submitCustomIngredient() {
+            const nameInput = document.getElementById('customIngredientName');
+            const descriptionInput = document.getElementById('customIngredientDescription');
+
+            const customName = nameInput.value.trim();
+            const customDescription = descriptionInput.value.trim();
+
+            if (customName.length < 2) {
+                showNotification('Название ингредиента должно быть длиннее', 'warning');
+                return;
+            }
+
+            const alreadyExists = selectedIngredients.some(ing => ing.name.toLowerCase() === customName.toLowerCase());
+            if (alreadyExists) {
+                showNotification('Этот ингредиент уже в корзине', 'info');
+                return;
+            }
+
+            const newIngredient = {
+                id: 'custom_' + customName.toLowerCase().replace(/\s+/g, '_'),
+                name: customName,
+                description: customDescription,
+                emoji: '📝',
+                category: 'custom',
+                units: ['шт', 'г', 'кг', 'мл', 'л'],
+                quantity: 1,
+                unit: 'шт'
+            };
+
+            selectedIngredients.push(newIngredient);
+            updateSelectedIngredientsList();
+            updateBadges();
+            
+            showNotification(`'${customName}' добавлен в корзину`, 'success');
+            
+            // Очистка и закрытие
+            nameInput.value = '';
+            descriptionInput.value = '';
+            closeCustomIngredientModal();
+            document.getElementById('searchInput').value = '';
+        }
+
+        function addToBasket(ingredientId) {
+            const ingredient = ingredientsData.find(ing => ing.id === ingredientId);
+            if (!ingredient) return;
+
+            const alreadyExists = selectedIngredients.some(ing => ing.id === ingredientId);
+            if (alreadyExists) {
+                const item = selectedIngredients.find(ing => ing.id === ingredientId);
+                item.quantity++;
+                showNotification(`'${ingredient.name}' уже в корзине. Количество увеличено.`, 'info');
+            } else {
+                selectedIngredients.push({ ...ingredient, quantity: 1, unit: ingredient.units[0] });
+                showNotification(`'${ingredient.name}' добавлен в корзину!`, 'success');
+            }
+            updateSelectedIngredientsList();
+            updateBadges();
+        }
+
+        // ===== ИНИЦИАЛИЗАЦИЯ ПОДСКАЗОК =====
+        function initializeSuggestions() {
+            const suggestionCards = document.querySelectorAll('.suggestion-card');
+            suggestionCards.forEach(card => {
+                // Удаляем старый обработчик, если он был
+                card.onclick = null;
+                card.addEventListener('click', () => {
+                    const promptKey = card.dataset.i18nPromptKey;
+                    if (promptKey && typeof getTranslation === 'function') {
+                        const translatedPrompt = getTranslation(promptKey);
+                        selectSuggestion(translatedPrompt);
+                    }
+                });
+            });
+        }
+    </script>
+    <script src="ingredients-data.js"></script>
+    <script src="dietary-filters.js"></script>
+    <script src="culinary-extensions.js"></script>
+    <script src="js/timers.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Modal for adding custom ingredient -->
+    <div class="modal-overlay" id="addCustomIngredientModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Добавить свой ингредиент</h3>
+                <button class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="customIngredientName">Название</label>
+                    <input type="text" id="customIngredientName" placeholder="Например, 'Сыр фета'">
+                </div>
+                <div class="form-group">
+                    <label for="customIngredientDescription">Краткое описание (необязательно)</label>
+                    <textarea id="customIngredientDescription" placeholder="Например, 'Соленый, в рассоле'"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary">Отмена</button>
+                <button class="modal-btn primary">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

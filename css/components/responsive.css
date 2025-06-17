@@ -1,0 +1,68 @@
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 250px;
+    }
+    
+    .main-content {
+        margin-left: 250px;
+    }
+    
+    .ingredients-grid-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .ingredients-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .content-body {
+        padding: 20px;
+    }
+    
+    .ingredients-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+    
+    .ingredients-grid-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .cooking-basket {
+        position: static;
+        margin-top: 20px;
+    }
+
+    .ingredients-body {
+        grid-template-columns: 1fr; /* Одна колонка на мобильных */
+    }
+
+    .right-sidebar {
+        display: none; /* Скрываем боковую панель на мобильных */
+    }
+} 

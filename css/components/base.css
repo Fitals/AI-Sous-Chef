@@ -1,0 +1,31 @@
+:root {
+    --primary-color: #ff6b6b;
+    --primary-color-dark: #e65a5a;
+    --primary-color-rgb: 255, 107, 107;
+    --secondary-color: #4ECDC4;
+    --text-color-primary: #374151;
+    --text-color-secondary: #6B7280;
+    --background-color: #f8fafc;
+    --background-color-light: #ffffff;
+    --background-color-soft: #f9fafb;
+    --border-color: #e5e7eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, 
+        #fdf2f8 0%, 
+        #fef7ed 25%, 
+        #fffbeb 50%, 
+        #f0fdf4 75%, 
+        #f8fafc 100%);
+    min-height: 100vh;
+    color: #374151;
+    overflow-x: hidden;
+} 

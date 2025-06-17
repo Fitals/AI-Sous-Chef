@@ -1,0 +1,136 @@
+/* ===== ОСТАЛЬНЫЕ СЕКЦИИ (сокращенно) ===== */
+.profile-section, .favorites-section, .timers-section, .history-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-control:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+} 
+
+.profile-section .action-btn {
+    border-radius: 12px;
+    background: #28a745;
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+.profile-section .action-btn:hover {
+    background: #218838;
+    box-shadow: 0 6px 20px rgba(33, 136, 56, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Settings Card */
+.settings-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    margin-top: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.settings-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.setting-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+}
+
+/* New, beautiful theme toggle button */
+.theme-toggle-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    color: #374151;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.theme-toggle-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.theme-toggle-button .fas {
+    transition: transform 0.4s ease;
+}
+
+.theme-toggle-button:hover .fas {
+    transform: rotate(15deg);
+}
+
+/* Dark mode styles for the button */
+body.dark-mode .theme-toggle-button {
+    background: var(--button-secondary-bg);
+    color: var(--main-text-color);
+    border-color: var(--border-color);
+}
+
+body.dark-mode .theme-toggle-button:hover {
+    background: var(--button-secondary-hover);
+    border-color: var(--accent-color);
+    box-shadow: 0 6px 20px rgba(88, 166, 255, 0.1);
+} 

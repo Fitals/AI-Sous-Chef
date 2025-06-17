@@ -1,0 +1,267 @@
+.cooking-basket-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border: 2px dashed #d1d5db;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cooking-basket-container.has-items {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    animation: basketGlow 2s ease-in-out infinite;
+}
+
+.basket-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.basket-title {
+    font-size: 1.2rem;
+    color: #6b7280;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.basket-subtitle {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+.selected-ingredients-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+    min-height: 250px;
+    flex-grow: 1;
+    align-content: flex-start;
+    transition: all 0.3s ease;
+}
+
+.selected-ingredients-list.is-crowded {
+    gap: 10px;
+}
+
+.selected-ingredient-card {
+    background-color: transparent;
+    flex: 0 0 80px;
+    height: 80px;
+    perspective: 1000px;
+    transition: all 0.3s ease;
+}
+
+.selected-ingredients-list.is-crowded .selected-ingredient-card {
+    flex: 0 0 65px;
+    height: 65px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 15px;
+}
+
+.selected-ingredient-card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.card-front {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    color: #374151;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+    transform: rotateY(180deg);
+    padding: 8px;
+}
+
+.card-emoji {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+    transition: font-size 0.3s ease;
+}
+
+.card-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition: font-size 0.3s ease;
+}
+
+.selected-ingredients-list.is-crowded .card-emoji {
+    font-size: 1.8rem;
+}
+.selected-ingredients-list.is-crowded .card-name {
+    font-size: 0.65rem;
+}
+
+.card-back-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.card-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    align-items: center;
+}
+
+.card-quantity-input {
+    width: 80%;
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid #9ca3af;
+    text-align: center;
+    font-size: 0.7rem;
+}
+
+.card-unit-selector {
+    width: 80%;
+    font-size: 0.65rem;
+    border-radius: 5px;
+    border: 1px solid #9ca3af;
+}
+
+.card-remove-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+.card-remove-btn:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+.selected-ingredient {
+    display: none;
+}
+
+.selected-ingredient:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.basket-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cook-with-ingredients-btn {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    animation: btnPulse 2s infinite;
+}
+
+.cook-with-ingredients-btn.show {
+    display: flex;
+}
+
+.cook-with-ingredients-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(249, 115, 22, 0.4);
+}
+
+.clear-basket-btn {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.clear-basket-btn.show {
+    display: block;
+}
+
+.clear-basket-btn:hover {
+    background: #4b5563;
+    transform: translateY(-2px);
+}
+
+.selected-ingredient .remove-ingredient {
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.selected-ingredient:hover .remove-ingredient {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Центрирование placeholder в пустой корзине */
+#selectedIngredientsList .empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+} 

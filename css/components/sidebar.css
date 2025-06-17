@@ -1,0 +1,139 @@
+/* ===== ЛЕВАЯ ПАНЕЛЬ НАВИГАЦИИ ===== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(180deg, 
+        #8b4513 0%,
+        #a0522d 30%,
+        #cd853f 60%,
+        #daa520 100%);
+    box-shadow: 
+        4px 0 20px rgba(139, 69, 19, 0.3),
+        inset -2px 0 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.3);
+    border-radius: 3px;
+}
+
+.sidebar-header {
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.1);
+}
+
+.sidebar-logo {
+    font-family: 'Comfortaa', cursive;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fef3c7;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.sidebar-subtitle {
+    font-size: 0.85rem;
+    color: #fed7aa;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.nav-menu {
+    padding: 20px 0;
+}
+
+.nav-item {
+    margin: 8px 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #fef3c7;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+    border-radius: 15px;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateX(5px);
+    color: white;
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+}
+
+.nav-link i {
+    width: 24px;
+    margin-right: 12px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.nav-badge {
+    margin-left: auto;
+    background: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    min-width: 20px;
+    text-align: center;
+}
+
+.nav-section-title {
+    color: rgba(254, 243, 199, 0.7);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 25px 20px 10px 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+} 
+
+.sidebar-link.active i, .sidebar-link:hover i {
+    color: #3b82f6; /* Синий при наведении/активности */
+}
+
+.sidebar-link .badge {
+    margin-left: auto;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 0.7rem;
+    padding: 3px 7px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.dark-mode .sidebar-header {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}

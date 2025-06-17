@@ -1,0 +1,514 @@
+/* 
+==============================================
+DARK THEME by CulinaryChat Pro
+==============================================
+*/
+
+body.dark-mode {
+    /* Новая, более мягкая цветовая палитра */
+    --main-bg-color: #0d1117;           /* Фон как у GitHub - очень темный, но не черный */
+    --secondary-bg-color: #161b22;      /* Фон для карточек, чуть светлее */
+    --sidebar-bg-color: #161b22;        /* Сайдбар в цвет карточек */
+    --card-bg-color: #161b22;
+    --border-color: #30363d;            /* Мягкая граница */
+    --main-text-color: #c9d1d9;         /* Светло-серый текст */
+    --secondary-text-color: #8b949e;    /* Более темный серый текст */
+    --accent-color: #58a6ff;            /* Приятный синий акцент */
+    --accent-color-hover: #388bfd;
+    --danger-color: #f85149;
+    --danger-color-hover: #da3633;
+    --success-color: #3fb950;
+    --input-bg-color: #0d1117;
+    --input-border-color: #30363d;
+    --input-focus-border-color: #58a6ff;
+    --button-secondary-bg: #21262d;
+    --button-secondary-hover: #30363d;
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --scrollbar-thumb-color: #30363d;
+    --scrollbar-track-color: #161b22;
+
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+}
+
+/* Применяем плавный переход цвета ко всему */
+body.dark-mode, body.dark-mode .sidebar, body.dark-mode .main-content, body.dark-mode *::before, body.dark-mode *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Scrollbar styles */
+body.dark-mode::-webkit-scrollbar {
+    width: 10px;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 10px;
+    border: 3px solid var(--scrollbar-track-color);
+}
+
+body.dark-mode .messages-container::-webkit-scrollbar-thumb,
+body.dark-mode .selected-ingredients-list::-webkit-scrollbar-thumb {
+     background-color: var(--scrollbar-thumb-color);
+}
+
+/* Общие переопределения */
+body.dark-mode .main-content {
+    background-color: var(--main-bg-color);
+}
+
+body.dark-mode .sidebar {
+    background: var(--sidebar-bg-color) !important; /* Убираем градиент */
+    border-right-color: var(--border-color);
+}
+
+body.dark-mode .sidebar-header h1 {
+    color: #ffffff;
+}
+
+body.dark-mode .sidebar-subtitle {
+    color: var(--secondary-text-color);
+}
+
+body.dark-mode .nav-section-title {
+    color: var(--secondary-text-color);
+}
+
+body.dark-mode .nav-link span,
+body.dark-mode .nav-link i {
+    color: var(--secondary-text-color);
+}
+
+body.dark-mode .nav-link.active,
+body.dark-mode .nav-link:hover {
+    background-color: var(--secondary-bg-color);
+}
+
+body.dark-mode .nav-link.active span,
+body.dark-mode .nav-link.active i,
+body.dark-mode .nav-link:hover span,
+body.dark-mode .nav-link:hover i {
+    color: var(--accent-color);
+}
+
+body.dark-mode .nav-link .nav-badge {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Шапка */
+body.dark-mode .content-header {
+    background-color: var(--secondary-bg-color);
+    border-bottom-color: var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 15px;
+}
+
+body.dark-mode .header-title, body.dark-mode .header-subtitle {
+    color: var(--main-text-color);
+}
+body.dark-mode .header-subtitle {
+    color: var(--secondary-text-color);
+}
+
+/* Карточки и контейнеры */
+body.dark-mode .chat-area,
+body.dark-mode .profile-card,
+body.dark-mode .settings-card,
+body.dark-mode .ingredients-header,
+body.dark-mode .modal-card,
+body.dark-mode .empty-state,
+body.dark-mode .timers-header,
+body.dark-mode .history-header,
+body.dark-mode .suggestion-card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .ingredients-layout__left .cooking-basket-container {
+    background: var(--secondary-bg-color) !important;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .ingredients-layout__right .filters-panel {
+     background: var(--secondary-bg-color) !important;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+body.dark-mode h2, body.dark-mode h3, body.dark-mode .settings-title {
+    color: var(--main-text-color);
+    border-bottom-color: var(--border-color);
+}
+
+/* Кнопки */
+body.dark-mode .add-ingredient-btn {
+    background-color: var(--accent-color) !important;
+}
+body.dark-mode .add-ingredient-btn:hover {
+    background-color: var(--accent-color-hover) !important;
+}
+
+body.dark-mode .cook-with-ingredients-btn {
+     background: var(--accent-color);
+}
+body.dark-mode .cook-with-ingredients-btn:hover {
+     background: var(--accent-color-hover);
+}
+body.dark-mode .clear-basket-btn {
+    background: var(--danger-color);
+}
+body.dark-mode .clear-basket-btn:hover {
+    background: var(--danger-color-hover);
+}
+
+body.dark-mode .category-tab {
+    background-color: var(--input-bg-color);
+    color: var(--secondary-text-color);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .category-tab.active,
+body.dark-mode .category-tab:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    border-color: var(--accent-color);
+}
+
+/* Ингредиенты */
+body.dark-mode .ingredient-item {
+    background-color: var(--input-bg-color);
+    border-color: var(--border-color);
+    color: var(--main-text-color);
+}
+body.dark-mode .ingredient-item:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-3px);
+}
+body.dark-mode .ingredient-item.selected {
+    border-color: var(--accent-color);
+    background-color: rgba(66, 153, 225, 0.1);
+}
+body.dark-mode .ingredient-category {
+    color: var(--secondary-text-color);
+}
+body.dark-mode .empty-ingredients h3 {
+    border: none;
+}
+
+/* Корзина */
+body.dark-mode .basket-header {
+    border-bottom-color: var(--border-color);
+}
+body.dark-mode .selected-ingredient-card {
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--border-color);
+}
+body.dark-mode .card-back {
+    background-color: var(--input-bg-color);
+    border: 1px solid var(--border-color);
+}
+body.dark-mode .card-quantity-input, body.dark-mode .card-unit-selector {
+    background-color: var(--secondary-bg-color);
+    border-color: var(--border-color);
+    color: var(--main-text-color);
+}
+
+/* Формы и инпуты */
+body.dark-mode .search-input,
+body.dark-mode .history-search,
+body.dark-mode .form-control {
+    background-color: var(--input-bg-color);
+    border-color: var(--input-border-color);
+    color: var(--main-text-color);
+}
+
+body.dark-mode .search-input:focus,
+body.dark-mode .history-search:focus,
+body.dark-mode .form-control:focus {
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3);
+}
+
+body.dark-mode .search-icon, body.dark-mode .history-search-icon {
+    color: var(--secondary-text-color);
+}
+
+/* Стили для чата */
+body.dark-mode .message-input-container {
+    background-color: transparent;
+    border-top-color: var(--border-color);
+}
+
+body.dark-mode .input-container {
+     background-color: var(--secondary-bg-color);
+}
+
+body.dark-mode .input-field {
+    background-color: var(--input-bg-color);
+    color: var(--main-text-color);
+    border-color: var(--input-border-color);
+}
+body.dark-mode .input-field:focus {
+    border-color: var(--accent-color);
+}
+
+body.dark-mode .send-button {
+    color: var(--secondary-text-color);
+}
+body.dark-mode .send-button:hover {
+    color: var(--accent-color);
+}
+
+body.dark-mode .message.user .message-bubble {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+body.dark-mode .message.bot .message-bubble,
+body.dark-mode .message.bot .message-content {
+    background-color: var(--secondary-bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--main-text-color);
+    box-shadow: none; /* Убираем свечение с дочерних элементов */
+}
+
+/* Финальный фикс для ауры: убираем тень и фон с самого родителя */
+body.dark-mode .message.bot {
+    background: transparent;
+    box-shadow: none;
+}
+
+body.dark-mode .message.bot .message-text, body.dark-mode .message.bot .message-title {
+    color: var(--main-text-color);
+}
+
+body.dark-mode .cooking-indicator .cooking-text {
+    color: var(--main-text-color);
+}
+
+body.dark-mode .suggestion-title {
+    color: var(--main-text-color);
+}
+body.dark-mode .suggestion-subtitle {
+    color: var(--secondary-text-color);
+}
+
+body.dark-mode code {
+    background-color: var(--main-bg-color);
+    border-color: var(--border-color);
+}
+
+/* Модальное окно */
+body.dark-mode .modal-header {
+    border-bottom-color: var(--border-color);
+}
+
+body.dark-mode .modal-header h3, body.dark-mode .modal-body .form-group label, body.dark-mode .setting-label {
+    color: var(--main-text-color);
+}
+
+body.dark-mode .modal-body .form-group input,
+body.dark-mode .modal-body .form-group textarea {
+    background-color: var(--input-bg-color);
+    border-color: var(--input-border-color);
+    color: var(--main-text-color);
+}
+
+body.dark-mode .modal-body .form-group input:focus,
+body.dark-mode .modal-body .form-group textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+body.dark-mode .modal-btn.secondary {
+    background-color: var(--button-secondary-bg);
+    color: var(--main-text-color);
+}
+body.dark-mode .modal-btn.secondary:hover {
+    background-color: var(--button-secondary-hover);
+}
+
+/* Уведомления */
+body.dark-mode .notification {
+    background-color: var(--secondary-bg-color);
+    color: var(--main-text-color);
+    border: 1px solid var(--border-color);
+}
+
+/* Таймеры */
+body.dark-mode .timer-card {
+    background-color: var(--input-bg-color);
+    border-color: var(--border-color);
+}
+body.dark-mode .timer-card .timer-name-input {
+    color: var(--main-text-color);
+}
+body.dark-mode .timer-card .timer-name-input:focus {
+    border-bottom-color: var(--accent-color);
+}
+body.dark-mode .timer-card .timer-display {
+    color: var(--main-text-color);
+}
+body.dark-mode .timer-card .timer-progress-bar-inner {
+    background-color: var(--accent-color);
+}
+body.dark-mode .timer-card .timer-button {
+    color: var(--secondary-text-color);
+}
+body.dark-mode .add-timer-btn, body.dark-mode .history-action-btn {
+    background-color: var(--input-bg-color);
+    color: var(--secondary-text-color);
+    border-color: var(--border-color);
+}
+body.dark-mode .add-timer-btn:hover, body.dark-mode .history-action-btn:hover {
+    background-color: var(--secondary-bg-color);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+body.dark-mode .history-action-btn.clear-all {
+    background-color: var(--danger-color);
+    color: white;
+    border-color: transparent;
+}
+body.dark-mode .history-action-btn.clear-all:hover {
+    background-color: var(--danger-color-hover);
+}
+
+/* История */
+body.dark-mode .history-item {
+    background-color: var(--input-bg-color);
+    border-color: var(--border-color);
+}
+body.dark-mode .history-item:hover {
+    background-color: var(--secondary-bg-color);
+}
+body.dark-mode .history-item-title {
+    color: var(--main-text-color);
+}
+body.dark-mode .history-item-date {
+    color: var(--secondary-text-color);
+}
+body.dark-mode .history-item-actions button {
+    color: var(--secondary-text-color);
+}
+
+/* Панель фильтров */
+body.dark-mode .filters-panel,
+body.dark-mode .dietary-filters-container {
+    background-color: var(--secondary-bg-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+body.dark-mode .dietary-filters-header {
+    border-bottom-color: var(--border-color);
+}
+
+body.dark-mode .dietary-filters-header h3,
+body.dark-mode .dietary-filters-header .diet-nav-arrow {
+    color: var(--main-text-color);
+}
+
+body.dark-mode .dietary-filter-item {
+    background-color: var(--input-bg-color) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+body.dark-mode .dietary-filter-item:hover {
+    border-color: var(--accent-color) !important;
+    background-color: var(--main-bg-color) !important;
+}
+
+body.dark-mode .dietary-filter-item.active {
+    background-color: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .dietary-filter-item.active .filter-name,
+body.dark-mode .dietary-filter-item.active .filter-description {
+    color: #ffffff !important;
+}
+
+body.dark-mode .filter-name {
+    color: var(--main-text-color);
+}
+body.dark-mode .filter-description {
+    color: var(--secondary-text-color);
+}
+
+body.dark-mode .filter-group-header {
+    color: var(--main-text-color);
+    border-bottom-color: var(--border-color);
+}
+
+/* Кнопка "Сохранить профиль" */
+body.dark-mode .profile-section .action-btn {
+    background: var(--accent-color);
+    color: #ffffff;
+}
+body.dark-mode .profile-section .action-btn:hover {
+    background: var(--accent-color-hover);
+}
+
+/* Main Content Body */
+body.dark-mode .content-body {
+    background-color: var(--main-bg-color);
+}
+
+body.dark-mode .suggestion-card:hover {
+    border-color: var(--accent-color);
+    background-color: var(--secondary-bg-color);
+}
+
+/* Индикатор готовки */
+body.dark-mode .cooking-indicator {
+    background-color: var(--accent-color);
+}
+
+body.dark-mode .cooking-indicator::before {
+    background: var(--secondary-bg-color);
+    box-shadow: 0 0 10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .cooking-process,
+body.dark-mode .cooking-text {
+    color: var(--main-text-color);
+}
+
+body.dark-mode .cooking-progress-bar {
+    background-color: var(--accent-color);
+}
+
+/* ФИНАЛЬНЫЙ ФИКС ДЛЯ КОРЗИНЫ */
+body.dark-mode .cooking-basket-container.has-items {
+    background: var(--secondary-bg-color) !important;
+    border-color: var(--accent-color) !important;
+    animation: none !important; /* Убираем свечение */
+}
+
+body.dark-mode .card-front {
+    background: var(--input-bg-color) !important;
+    color: var(--main-text-color) !important;
+}
+
+body.dark-mode .card-back {
+    background: var(--main-bg-color) !important;
+}
+
+body.dark-mode .basket-title, body.dark-mode .basket-subtitle {
+    color: var(--secondary-text-color) !important;
+}
+
+body.dark-mode .filter-name {
+    color: var(--main-text-color);
+} 
